@@ -82,7 +82,7 @@ const AddContactPage = () => {
                     type="radio"
                     name="gender"
                     value="male"
-                    className="w-5 h-5 bg-white border-gray-300 focus:ring-main peer-checked:bg-blue-500 peer-checked:border-blue-500"
+                    className="w-5 h-5 bg-white border-gray-300 focus:ring-main peer-checked:bg-main"
                   />
                   <span className="text-white">Male</span>
                 </label>
