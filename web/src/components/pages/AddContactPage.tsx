@@ -4,6 +4,8 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { createContact } from '../../utils/api';
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import AlertBox from '../modal/AlertBox';
 
 const formSchema = z.object({
   fullName: z.string().min(1, "Full Name is required"),
@@ -22,18 +24,26 @@ const AddContactPage = () => {
   });
 
   const navigate = useNavigate();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const mutation = useMutation({
     mutationFn: createContact,
     onSuccess: () => {
-      alert('Contact created');
+      setModalMessage('Your contact has beed saved successfully!');
+      setModalVisible(true);
       reset();
-      navigate('/contacts');
     },
     onError: () => {
-      alert('Error in contact creation');
+      setModalMessage('Error in contact creation');
+      setModalVisible(true);
     }
   });
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+    navigate('/contacts');
+  };
 
   const onSubmit = (data: FormData) => {
     mutation.mutate(data);
@@ -99,6 +109,7 @@ const AddContactPage = () => {
           </div>
         </form>
       </div>
+      <AlertBox visible={modalVisible} onClose={handleModalClose} message={modalMessage} />
     </>
   )
 }

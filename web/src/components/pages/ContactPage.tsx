@@ -1,10 +1,15 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { deteleteContact, getContacts } from '../../utils/api'
 import { useNavigate } from 'react-router-dom';
+import { useState } from 'react';
+import AlertBox from '../modal/AlertBox';
 
 const ContactPage = () => {
   const { data } = useQuery({ queryKey: ['contacts'], queryFn: getContacts });
   const navigate = useNavigate();
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const editContact = (id: string) => {
     navigate(`/contacts/edit/${id}`);
@@ -20,12 +25,18 @@ const ContactPage = () => {
     mutationFn: deteleteContact,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['contacts'] });
-      alert('deleted');
+      setModalMessage('Your contact has beed deleted successfully!');
+      setModalVisible(true);
     },
     onError: () => {
-      alert('Fail to delete');
+      setModalMessage('Error in contact deletion');
+      setModalVisible(true);
     }
   });
+
+  const handleModalClose = () => {
+    setModalVisible(false);
+  };
 
   const getAvatar = (gender: string)=> {
     return gender === 'male' ? '/public/assets/male-avatar.png' : '/public/assets/female-avatar.png'
@@ -88,6 +99,7 @@ const ContactPage = () => {
           </div>
         </div>
       </div>
+      <AlertBox visible={modalVisible} onClose={handleModalClose} message={modalMessage} />
     </>
   )
 }

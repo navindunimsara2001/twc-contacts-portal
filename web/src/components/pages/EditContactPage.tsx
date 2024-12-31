@@ -4,6 +4,8 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
 import { getContactById, updateContact } from '../../utils/api';
 import { useMutation, useQuery } from '@tanstack/react-query';
+import AlertBox from '../modal/AlertBox';
+import { useState } from 'react';
 
 const formSchema = z.object({
   fullName: z.string().min(1, "Full Name is required"),
@@ -22,24 +24,32 @@ const EditContactPage = () => {
   });
 
   const navigate = useNavigate();
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalMessage, setModalMessage] = useState("");
 
   const mutation = useMutation({
     mutationFn: updateContact,
     onSuccess: () => {
-      alert('Contact updated');
+      setModalMessage('Your contact has beed updated successfully!');
+      setModalVisible(true);
       reset();
-      navigate('/contacts');
     },
     onError: () => {
-      alert('Error in contact updated');
+      setModalMessage('Error in contact updation');
+      setModalVisible(true);
     }
   });
 
+  const handleModalClose = () => {
+    setModalVisible(false);
+    navigate('/contacts');
+  };
+
   const onSubmit = (data: FormData) => {
-    if(id) mutation.mutate({id,...data});
+    if (id) mutation.mutate({ id, ...data });
   }
 
-  const {id} = useParams();
+  const { id } = useParams();
 
   // Fetch existing user data
   const { data } = useQuery({
@@ -116,6 +126,7 @@ const EditContactPage = () => {
           </div>
         </form>
       </div>
+      <AlertBox visible={modalVisible} onClose={handleModalClose} message={modalMessage} />
     </>
   )
 }

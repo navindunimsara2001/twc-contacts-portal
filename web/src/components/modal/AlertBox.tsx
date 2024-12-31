@@ -20,8 +20,8 @@ const AlertBox = ({ visible, onClose, message }: AlertBoxProps) => {
             onClick={handleOnClose}
             className='fixed inset-0 bg-black bg-opacity-30 backdrop-blur-sm flex justify-center items-center'
         >
-            <div className='bg-white p-6 rounded-lg shadow-xl max-w-md'>
-                <h2 className='text-lg font-semibold text-center mb-4'>{message}</h2>
+            <div className='bg-white p-6 rounded-3xl shadow-xl w-[75%] max-w-lg'>
+                <h2 className='text-main text-lg font-semibold text-center mb-4'>{message}</h2>
                 <div className='flex justify-center'>
                     <button
                         onClick={onClose}
