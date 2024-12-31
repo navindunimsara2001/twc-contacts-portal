@@ -24,9 +24,8 @@ model Contact {
 }
 
 enum Gender {
-  MALE
-  FEMALE
-  OTHER
+  male
+  female
 }
 
 model User {

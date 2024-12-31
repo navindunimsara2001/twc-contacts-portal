@@ -1,9 +1,7 @@
-version: '3.8'
-
 services:
-  db:
+  postgres:
     image: postgres:latest
-    restart: always
+    container_name: postgres_container
     ports:
       - '5432:5432'
     environment:
@@ -11,7 +9,13 @@ services:
       POSTGRES_PASSWORD: admin
       POSTGRES_DB: nest_db
     volumes:
-      - pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - app_network
 
 volumes:
-  pgdata:
+  postgres_data:
+
+networks:
+  app_network:
+    driver: bridge

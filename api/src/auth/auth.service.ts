@@ -33,7 +33,7 @@ export class AuthService {
             },
         });
 
-        return user;
+        return "Successfully registered";
     }
 
     // Login a user
