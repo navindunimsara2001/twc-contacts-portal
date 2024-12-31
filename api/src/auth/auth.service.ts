@@ -52,10 +52,15 @@ export class AuthService {
             throw new UnauthorizedException('Invalid email or password');
         }
 
+        // Get the number of contacts created by the user
+        const contactsCount = await this.prisma.contact.count({
+            where: { createdBy: user.id }, // Count contacts where the `createdBy` field matches the user ID
+        });
+
         // Generate JWT
         const payload = { email: user.email, sub: user.id };
         const accessToken = this.jwtService.sign(payload);
 
-        return { accessToken };
+        return { accessToken, contactsCount };
     }
 }

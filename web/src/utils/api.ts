@@ -4,7 +4,7 @@ import { Contact } from "./types";
 axios.interceptors.request.use(async (cfg) => {
     const jwt = localStorage.getItem("token");
     if (jwt) {
-        cfg.headers.Authorization = `Bearer ${ jwt }`;
+        cfg.headers.Authorization = `Bearer ${jwt}`;
     }
     return cfg;
 });
@@ -99,17 +99,18 @@ export const deteleteContact = async (id: string): Promise<any> => {
     }
 };
 
-export const userLogin = async (email: string, password: string): Promise<string> => {
+export const userLogin = async (email: string, password: string): Promise<{ contactsCount: number, accessToken: string|null}> => {
     try {
         const response = await axios.post(`auth/login`, { email, password });
-        return response.data.accessToken;
+
+        return response.data;
     } catch (error) {
         console.error("Error during login:", error);
         throw error;
     }
 };
 
-export const userRegister = async ({email, password}: {email: string, password: string}) => {
+export const userRegister = async ({ email, password }: { email: string, password: string }) => {
     try {
         await axios.post(`auth/register`, { email, password });
     } catch (error) {

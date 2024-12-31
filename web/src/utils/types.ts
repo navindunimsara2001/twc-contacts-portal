@@ -5,7 +5,7 @@ export type AuthUser = {
 export type AuthContextType = {
     token: string|null,
     user: AuthUser|null,
-    login: ({email, password}: {email: string, password: string}) => Promise<void>,
+    login: ({email, password}: {email: string, password: string}) => Promise<number>,
     logout: () => void
 }
 

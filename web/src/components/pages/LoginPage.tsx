@@ -21,16 +21,20 @@ const LoginPage = () => {
 
   const navigate = useNavigate();
 
-  const onSubmit = (data: {email: string, password: string})=>{
+  const onSubmit = (data: { email: string, password: string }) => {
     mutation.mutate(data);
   }
 
   const mutation = useMutation({
     mutationFn: useAuth()?.login,
-    onSuccess: () => {
-      alert('Logged');
-      reset()
-      navigate('/contacts')
+    onSuccess: (contactsCount) => {
+      reset();
+      // Check if contactsCount is 0 and navigate accordingly
+      if (contactsCount === 0) {
+        navigate('/');  // Redirect to the 'no-contacts' page
+      } else {
+        navigate('/contacts');  // Redirect to the contacts page
+      }
     },
     onError: () => {
       alert('Fail to log');
@@ -54,10 +58,10 @@ const LoginPage = () => {
           </div>
           <div className='flex items-center'>
             <button type="submit" className="bg-transparent border-2 border-white text-white p-2 rounded-full px-5">
-              Login 
+              Login
             </button>
             <h1 className='mx-5 text-white'>or</h1>
-            <h1 className='text-white underline font-semibold cursor-pointer' onClick={()=> navigate('/register')}>Click here to Register</h1>
+            <h1 className='text-white underline font-semibold cursor-pointer' onClick={() => navigate('/register')}>Click here to Register</h1>
           </div>
         </form>
       </div>

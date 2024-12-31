@@ -34,7 +34,7 @@ const ContactPage = () => {
   return (
     <>
       <div className='flex items-center justify-center h-screen'>
-        <div className='w-[75%] min-h-[80vh] flex flex-col justify-center'>
+        <div className='w-[65%] min-h-[80vh] flex flex-col justify-center'>
           <div className='flex items-center mb-8'>
             <div>
               <h1 className='text-white font-bold text-[3.5em]'>Contacts</h1>
@@ -71,7 +71,7 @@ const ContactPage = () => {
                         <td className='p-4 text-center'>{contact.gender}</td>
                         <td className='p-4 text-center'>{contact.email}</td>
                         <td className='p-4 text-center'>{contact.phone}</td>
-                        <td className='grid grid-cols-2 gap-2 p-4'>
+                        <td className='grid grid-cols-2 gap-2 p-4  justify-center items-center'>
                           <img src='/public/assets/edit-icon.svg'
                             onClick={() => editContact(contact.id!)}
                             className='cursor-pointer' />

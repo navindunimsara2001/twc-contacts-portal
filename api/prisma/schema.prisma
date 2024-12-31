@@ -13,14 +13,16 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-
 model Contact {
-  id        Int     @id @default(autoincrement())
+  id        Int      @id @default(autoincrement())
   fullName  String
   gender    Gender
-  email     String  @unique
+  email     String   @unique
   phone     String
   createdAt DateTime @default(now())
+
+  createdBy Int
+  user      User @relation("UserContacts", fields: [createdBy], references: [id])
 }
 
 enum Gender {
@@ -29,7 +31,9 @@ enum Gender {
 }
 
 model User {
-  id        Int    @id @default(autoincrement())
-  email     String @unique
-  password  String
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  password String
+
+  contacts Contact[] @relation("UserContacts") // This defines the reverse relationship
 }

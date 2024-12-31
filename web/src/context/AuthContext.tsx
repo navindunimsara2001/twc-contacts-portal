@@ -16,10 +16,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [token]);
 
-    const login = async ({email, password}:{email: string, password: string}) => {
-        const token = await userLogin(email, password);
-        setToken(token);
-        localStorage.setItem("token", token);
+    const login = async ({ email, password }: { email: string, password: string }): Promise<number> => {
+        const {accessToken, contactsCount} = await userLogin(email, password);
+        setToken(accessToken);
+        localStorage.setItem("token", accessToken!);
+        return contactsCount;
     }
 
     const logout = () => {
