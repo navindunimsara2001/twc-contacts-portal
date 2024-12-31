@@ -78,6 +78,7 @@ const AddContactPage = () => {
                 <label className="flex items-center space-x-2">
                   <input
                     {...register("gender")}
+                    checked
                     type="radio"
                     name="gender"
                     value="male"

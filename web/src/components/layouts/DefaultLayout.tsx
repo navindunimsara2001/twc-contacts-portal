@@ -19,7 +19,7 @@ const DefaultLayout: React.FC = () => {
     return (
         <div className="grid grid-cols-1 grid-rows-3 bg-[url('/assets/default-layout-bg.png')] w-full h-full bg-cover bg-no-repeat">
             <div className='mx-[35em] mt-[2em]'>
-                <img src='/assets/company-logo.png' />
+                <img src='/assets/def-company-logo.png' />
                 <h2 className='text-white text-[3em] font-bold leading-3 mt-5 mb-1'>Contacts</h2>
                 <h2 className='text-white text-[2em] leading-2'>portal</h2>
             </div>
