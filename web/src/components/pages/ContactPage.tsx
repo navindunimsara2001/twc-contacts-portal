@@ -3,13 +3,20 @@ import { deteleteContact, getContacts } from '../../utils/api'
 import { useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import AlertBox from '../modal/AlertBox';
+import { Contact } from '../../utils/types';
+import ConfirmBox from '../modal/ConfirmBox';
 
 const ContactPage = () => {
   const { data } = useQuery({ queryKey: ['contacts'], queryFn: getContacts });
   const navigate = useNavigate();
 
+  const [selectedId, setSelectedId] = useState("");
+
   const [modalVisible, setModalVisible] = useState(false);
   const [modalMessage, setModalMessage] = useState("");
+
+  const [confirmVisible, setConfirmVisible] = useState(false);
+  const [confirmMessage, setConfirmMessage] = useState("");
 
   const editContact = (id: string) => {
     navigate(`/contacts/edit/${id}`);
@@ -38,8 +45,25 @@ const ContactPage = () => {
     setModalVisible(false);
   };
 
-  const getAvatar = (gender: string)=> {
+  const getAvatar = (gender: string) => {
     return gender === 'male' ? '/public/assets/male-avatar.png' : '/public/assets/female-avatar.png'
+  }
+
+  const deleteClick = (contact: Contact) => {
+    setConfirmMessage(`Do you want to delete the contact "${contact.fullName}"?`);
+    setSelectedId(contact.id!);
+    setConfirmVisible(true);
+  }
+
+  const handleCancelDeletion = () => {
+    setConfirmVisible(false);
+  }
+
+  const handleConfirmDeletion = () => {
+    if (selectedId) {
+      deleteContactById(selectedId);
+      setModalVisible(false);
+    }
   }
 
   return (
@@ -87,7 +111,7 @@ const ContactPage = () => {
                             onClick={() => editContact(contact.id!)}
                             className='cursor-pointer' />
                           <img src='/public/assets/delete-icon.svg'
-                            onClick={() => deleteContactById(contact.id!)}
+                            onClick={() => deleteClick(contact)}
                             className='cursor-pointer' />
                         </td>
                       </tr>
@@ -100,6 +124,7 @@ const ContactPage = () => {
         </div>
       </div>
       <AlertBox visible={modalVisible} onClose={handleModalClose} message={modalMessage} />
+      <ConfirmBox visible={confirmVisible} onCancel={handleCancelDeletion} onConfirm={handleConfirmDeletion} message={confirmMessage} />
     </>
   )
 }
