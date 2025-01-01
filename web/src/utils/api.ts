@@ -99,10 +99,21 @@ export const deteleteContact = async (id: string): Promise<any> => {
     }
 };
 
-export const userLogin = async (email: string, password: string): Promise<{ contactsCount: number, accessToken: string|null}> => {
+/**
+ * Logs in a user by sending email and password to the authentication endpoint.
+ * 
+ * @param {string} email - The user's email address.
+ * @param {string} password - The user's password.
+ * @returns {Promise<{ contactsCount: number, accessToken: string | null }>} 
+ *          An object containing the user's contact count and access token.
+ * @throws {Error} Throws an error if the login process fails.
+ */
+export const userLogin = async (
+    email: string,
+    password: string
+): Promise<{ contactsCount: number, accessToken: string | null }> => {
     try {
         const response = await axios.post(`auth/login`, { email, password });
-
         return response.data;
     } catch (error) {
         console.error("Error during login:", error);
@@ -110,7 +121,18 @@ export const userLogin = async (email: string, password: string): Promise<{ cont
     }
 };
 
-export const userRegister = async ({ email, password }: { email: string, password: string }) => {
+/**
+ * Registers a new user by sending email and password to the registration endpoint.
+ * 
+ * @param {{ email: string, password: string }} params - An object containing user details.
+ * @param {string} params.email - The user's email address.
+ * @param {string} params.password - The user's password.
+ * @returns {Promise<void>} Resolves if registration is successful.
+ * @throws {Error} Throws an error if the registration process fails.
+ */
+export const userRegister = async (
+    { email, password }: { email: string, password: string }
+): Promise<void> => {
     try {
         await axios.post(`auth/register`, { email, password });
     } catch (error) {
